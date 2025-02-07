@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ThemeProvider } from "next-themes";
 
-export default function NextThemeProviders({
+export default function NextThemeProvider({
   children,
 }: {
   children: React.ReactNode;

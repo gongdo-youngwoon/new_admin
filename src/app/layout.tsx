@@ -1,10 +1,11 @@
 import localFont from "next/font/local";
 import Sidebar from "@/ui/sidebar/Sidebar";
 import Header from "@/ui/header/Header";
-import NextThemeProviders from "@/component/NextThemeProviders";
+
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./globals.css";
+import NextThemeProvider from "@/component/theme/NextThemeProvider";
 
 config.autoAddCss = false;
 
@@ -23,13 +24,13 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className} flex`}>
-        <NextThemeProviders>
+        <NextThemeProvider>
           <Sidebar />
           <div className="flex-1">
             <Header />
             {children}
           </div>
-        </NextThemeProviders>
+        </NextThemeProvider>
       </body>
     </html>
   );

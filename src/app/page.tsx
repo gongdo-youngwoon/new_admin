@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div className="bg-red-500">asdas</div>;
+  return <div className="pt-[64px]">asdas</div>;
 }
