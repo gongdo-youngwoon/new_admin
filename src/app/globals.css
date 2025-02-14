@@ -2,14 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+html {
+  font-size: 16px;
 }
 
-body {
-  box-sizing: border-box;
+@layer base {
+}
+
+@layer components {
+}
+
+@layer utilities {
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .transition-default {
+    @apply transition-all duration-300 ease-out;
+  }
 }

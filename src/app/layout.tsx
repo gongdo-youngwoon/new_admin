@@ -1,11 +1,8 @@
 import localFont from "next/font/local";
-import Sidebar from "@/ui/sidebar/Sidebar";
-import Header from "@/ui/header/Header";
-
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./globals.css";
-import NextThemeProvider from "@/component/theme/NextThemeProvider";
+import TanstackQueryProvider from "@/components/provider/TanstackQueryProvider";
 
 config.autoAddCss = false;
 
@@ -23,14 +20,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.className} flex`}>
-        <NextThemeProvider>
-          <Sidebar />
-          <div className="flex-1">
-            <Header />
-            {children}
-          </div>
-        </NextThemeProvider>
+      <body className={`${pretendard.className} bg-[#f5f6fa]`}>
+        <TanstackQueryProvider>{children}</TanstackQueryProvider>
       </body>
     </html>
   );

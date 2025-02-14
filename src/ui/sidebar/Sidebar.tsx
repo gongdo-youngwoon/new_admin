@@ -1,49 +1,53 @@
 "use client";
 
-import { useState } from "react";
 import clsx from "clsx";
 import Image from "next/image";
+import { useLayoutStore } from "@/store/layoutStore";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
+import MenuList from "./MenuList";
 import whiteLogo from "@/assets/images/logo_white.png";
 import blackLogo from "@/assets/images/logo_black.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import MenuList from "./MenuList";
 
 export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(true);
+  const layoutState = useLayoutStore((state) => state.state);
+  const { open, close } = useLayoutStore((state) => state.actions);
 
   return (
     <div
       className={clsx(
-        "h-screen bg-white border-r border-r-gray-200 shadow-lg dark:bg-gray-600 transition-all duration-300 ease-out overflow-hidden",
+        "fixed min-h-screen bg-white border-r border-r-gray-200 transition-default overflow-hidden z-10 dark:bg-gray-600",
         {
-          "w-[74px]": !isOpen,
-          "w-[288px]": isOpen,
+          "w-20": !layoutState,
+          "w-72": layoutState,
         }
       )}
     >
-      <div className="flex items-center gap-[24px] h-[64px] pl-[24px] border-b border-b-gray-200">
-        <div className="shrink-0 flex-center w-[26px]">
+      <div className="flex items-center gap-7 h-16 pl-7 border-b border-b-gray-200">
+        <div className="shrink-0 flex-center w-6">
           <FontAwesomeIcon
-            className="text-primary-500 text-[28px] hover:cursor-pointer"
-            icon={faBars}
-            onClick={() => setIsOpen((prev) => !prev)}
+            className="text-primary-500 text-2xl hover:cursor-pointer"
+            icon={faBarsStaggered}
+            onClick={() => {
+              if (layoutState) {
+                close();
+              } else {
+                open();
+              }
+            }}
           />
         </div>
         <div
-          className={clsx(
-            "shrink-0 relative w-[140px] h-[24px] transition-opacity duration-300 ease-out",
-            {
-              "opacity-0": !isOpen,
-            }
-          )}
+          className={clsx("shrink-0 relative w-28 h-6 transition-default", {
+            "opacity-0": !layoutState,
+          })}
         >
           <Image
             className="object-contain dark:hidden"
             src={blackLogo}
             alt="로고 이미지"
             fill
-            sizes="150px"
+            sizes="128px"
             priority
           />
           <Image
@@ -51,7 +55,7 @@ export default function Sidebar() {
             src={whiteLogo}
             alt="로고 이미지"
             fill
-            sizes="150px"
+            sizes="128px"
             priority
           />
         </div>
