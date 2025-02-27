@@ -1,8 +1,8 @@
 import localFont from "next/font/local";
+import TanstackQueryProvider from "@/components/provider/TanstackQueryProvider";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./globals.css";
-import TanstackQueryProvider from "@/components/provider/TanstackQueryProvider";
 
 config.autoAddCss = false;
 

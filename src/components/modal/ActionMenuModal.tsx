@@ -10,8 +10,8 @@ export default function ActionMenuModal({ href }: ActionMenuModalProps) {
   const router = useRouter();
   return (
     <div
-      className="absolute top-7 right-1/2 w-40 py-2 border border-gray-200 bg-white shadow-md rounded-lg z-10
-      *:flex *:items-center *:gap-4 *:h-10 *:p-5"
+      className="absolute top-7 right-1/2 w-40 py-2 border border-gray-200 bg-white text-sm text-gray-500
+      shadow-md rounded-lg z-10 *:flex *:items-center *:gap-4 *:h-10 *:p-5"
     >
       <div
         className="hover:bg-gray-100 hover:text-primary-400 hover:font-semibold hover:cursor-pointer transition-default"

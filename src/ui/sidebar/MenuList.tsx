@@ -20,8 +20,8 @@ const MENU_LIST = [
     main: "배너 관리",
     pathStart: "/banner",
     sub: [
-      { id: 1, href: "", label: "배너 등록" },
-      { id: 2, href: "", label: "배너 조회" },
+      { id: 1, href: "/banner/create", label: "배너 등록" },
+      { id: 2, href: "/banner", label: "배너 조회" },
     ],
   },
   {
@@ -36,7 +36,17 @@ const MENU_LIST = [
   },
 ];
 
-export default function MenuList() {
+interface MenuListProps {
+  isHover: boolean;
+  handleMouseEnter: () => void;
+  handleMouseLeave: () => void;
+}
+
+export default function MenuList({
+  isHover,
+  handleMouseEnter,
+  handleMouseLeave,
+}: MenuListProps) {
   const layoutState = useLayoutStore((state) => state.state);
   const [curId, setCurId] = useState<number | null>(null);
   const pathname = usePathname();
@@ -66,7 +76,11 @@ export default function MenuList() {
   };
 
   return (
-    <ul className="flex flex-col gap-2 px-4 py-6 text-gray-500">
+    <ul
+      className="grow flex flex-col gap-2 px-4 py-6 text-gray-500"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {MENU_LIST.map((el) => {
         const isActive = curId === el.id;
         return (
@@ -87,17 +101,20 @@ export default function MenuList() {
                 </div>
                 <div
                   className={clsx("font-semibold transition-default", {
-                    "opacity-0": !layoutState,
+                    "invisible opacity-0": !layoutState && !isHover,
+                    "visible opacity-100": layoutState || isHover,
                   })}
                 >
                   {el.main}
                 </div>
               </div>
-              {layoutState && el.id > 1 && (
+              {el.id > 1 && (
                 <div className="flex-center w-5">
                   <FontAwesomeIcon
                     className={clsx("text-xs transition-default", {
                       "rotate-90": isActive,
+                      "invisible opacity-0": !layoutState && !isHover,
+                      "visible opacity-100": layoutState || isHover,
                     })}
                     icon={faAngleRight}
                   />
@@ -109,7 +126,7 @@ export default function MenuList() {
                 className={clsx(
                   "relative flex flex-col justify-center bg-primary-50 bg-opacity-40 rounded-b-md overflow-hidden transition-default",
                   {
-                    "h-24": layoutState && isActive,
+                    "h-24": (layoutState && isActive) || (isHover && isActive),
                     "h-0": !layoutState || !isActive,
                   }
                 )}
@@ -122,7 +139,8 @@ export default function MenuList() {
                       className={clsx(
                         "flex items-center gap-3 h-9 px-3 hover:cursor-pointer",
                         {
-                          hidden: !layoutState,
+                          "invisible opacity-0": !layoutState && !isHover,
+                          "visible opacity-100": layoutState || isHover,
                         }
                       )}
                       key={el.id}

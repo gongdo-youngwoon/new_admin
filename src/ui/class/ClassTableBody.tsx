@@ -1,37 +1,29 @@
-"use client";
-
+import { Dispatch, SetStateAction } from "react";
 import { ClassSchema } from "@/api/classApi";
-import ClassListItem from "./ClassListItem";
+import StartClassList from "./StartClassList";
+import CenterClassList from "./CenterClassList";
+import EndClassList from "./EndClassList";
 
 interface ClassTableBodyProps {
   data: ClassSchema[][];
   checkList: string[];
-  handleCheck: (targetId: string) => void;
+  setCheckList: Dispatch<SetStateAction<string[]>>;
 }
 
 export default function ClassTableBody({
   data,
   checkList,
-  handleCheck,
+  setCheckList,
 }: ClassTableBodyProps) {
   return (
-    <>
-      {data.map((page, idx) => {
-        return (
-          <ul key={idx}>
-            {page.map((el) => {
-              return (
-                <ClassListItem
-                  key={el.id}
-                  checked={checkList.includes(el.id)}
-                  data={el}
-                  handleCheck={handleCheck}
-                />
-              );
-            })}
-          </ul>
-        );
-      })}
-    </>
+    <div className="flex">
+      <StartClassList
+        data={data}
+        checkList={checkList}
+        setCheckList={setCheckList}
+      />
+      <CenterClassList data={data} checkList={checkList} />
+      <EndClassList data={data} checkList={checkList} />
+    </div>
   );
 }

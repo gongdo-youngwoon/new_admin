@@ -8,9 +8,14 @@ import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 interface HoverIconProps {
   children: (handleModal: () => void) => ReactNode;
   icon: IconDefinition;
+  isApplied?: boolean;
 }
 
-export default function HoverIcon({ children, icon }: HoverIconProps) {
+export default function HoverIcon({
+  children,
+  icon,
+  isApplied,
+}: HoverIconProps) {
   const [isHover, setIsHover] = useState(false);
   const [isAction, setIsAction] = useState(false);
 
@@ -37,7 +42,9 @@ export default function HoverIcon({ children, icon }: HoverIconProps) {
       >
         <FontAwesomeIcon className="text-gray-500" icon={icon} />
       </div>
-
+      {isApplied && (
+        <div className="absolute top-1 right-1 size-2 bg-primary-500 rounded-full" />
+      )}
       {isAction && (
         <>
           <div className="fixed inset-0 z-10" onClick={handleModal} />

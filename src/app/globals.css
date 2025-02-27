@@ -17,7 +17,15 @@ html {
     @apply flex justify-center items-center;
   }
 
+  .transition-150 {
+    @apply transition-all duration-100 ease-out;
+  }
+
   .transition-default {
     @apply transition-all duration-300 ease-out;
+  }
+
+  .transition-500 {
+    @apply transition-all duration-500 ease-out;
   }
 }

@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import Image from "next/image";
+import { useState } from "react";
 import { useLayoutStore } from "@/store/layoutStore";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
@@ -12,14 +13,26 @@ import blackLogo from "@/assets/images/logo_black.png";
 export default function Sidebar() {
   const layoutState = useLayoutStore((state) => state.state);
   const { open, close } = useLayoutStore((state) => state.actions);
+  const [isHover, setIsHover] = useState(false);
+
+  const handleMouseEnter = () => {
+    if (!layoutState) {
+      setIsHover(true);
+    }
+  };
+  const handleMouseLeave = () => {
+    if (!layoutState) {
+      setIsHover(false);
+    }
+  };
 
   return (
     <div
       className={clsx(
-        "fixed min-h-screen bg-white border-r border-r-gray-200 transition-default overflow-hidden z-10 dark:bg-gray-600",
+        "fixed min-h-screen flex flex-col bg-white border-r border-r-gray-200 transition-default overflow-hidden z-10",
         {
           "w-20": !layoutState,
-          "w-72": layoutState,
+          "w-72": layoutState || isHover,
         }
       )}
     >
@@ -39,7 +52,8 @@ export default function Sidebar() {
         </div>
         <div
           className={clsx("shrink-0 relative w-28 h-6 transition-default", {
-            "opacity-0": !layoutState,
+            "invisible opacity-0": !layoutState && !isHover,
+            "visible opacity-100": layoutState || isHover,
           })}
         >
           <Image
@@ -48,7 +62,6 @@ export default function Sidebar() {
             alt="로고 이미지"
             fill
             sizes="128px"
-            priority
           />
           <Image
             className="object-contain hidden dark:block"
@@ -56,11 +69,14 @@ export default function Sidebar() {
             alt="로고 이미지"
             fill
             sizes="128px"
-            priority
           />
         </div>
       </div>
-      <MenuList />
+      <MenuList
+        isHover={isHover}
+        handleMouseEnter={handleMouseEnter}
+        handleMouseLeave={handleMouseLeave}
+      />
     </div>
   );
 }

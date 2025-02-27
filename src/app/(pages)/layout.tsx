@@ -10,8 +10,8 @@ export default function PageLayout({
 }>) {
   return (
     <NextThemeProvider>
-      <Sidebar />
       <Header />
+      <Sidebar />
       <PageLayoutProvider>{children}</PageLayoutProvider>
     </NextThemeProvider>
   );

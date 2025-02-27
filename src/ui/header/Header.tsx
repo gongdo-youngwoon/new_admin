@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import { usePathname, useRouter } from "next/navigation";
 import { useLayoutStore } from "@/store/layoutStore";
+import { getBreadcrumb } from "@/lib/breadcrumb";
 import ThemeToggleButton from "@/components/button/ThemeToggleButton";
 
 export default function Header() {
@@ -10,40 +11,13 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const parsedPathname = pathname.split("/");
-  const classId = parsedPathname[3];
-
-  const getBreadcrumb = () => {
-    const depthList: { id: number; label: string; href?: string }[] = [];
-    if (pathname === "/") {
-      depthList.push({ id: 1, label: "대시보드" });
-    } else if (pathname === "/class") {
-      depthList.push({ id: 1, label: "클래스 관리" });
-      depthList.push({ id: 2, label: ">" });
-      depthList.push({ id: 3, label: "클래스 조회", href: "/class" });
-    } else if (pathname === "/class/create") {
-      depthList.push({ id: 1, label: "클래스 관리" });
-      depthList.push({ id: 2, label: ">" });
-      depthList.push({ id: 3, label: "클래스 등록", href: "/class/create" });
-    } else if (pathname.startsWith("/class/") && classId) {
-      depthList.push({ id: 1, label: "클래스 관리" });
-      depthList.push({ id: 2, label: ">" });
-      depthList.push({ id: 3, label: "클래스 조회", href: "/class/create" });
-      depthList.push({ id: 4, label: ">" });
-      depthList.push({
-        id: 3,
-        label: "클래스 수정",
-        href: `/class/${classId}/update`,
-      });
-    }
-    return depthList;
-  };
-
-  const breadcrumb = getBreadcrumb();
+  const detailId = parsedPathname[2];
+  const breadcrumb = getBreadcrumb(pathname, detailId);
 
   return (
     <header
       className={clsx(
-        "fixed right-0 flex items-center justify-between h-16 px-8 bg-white border-b border-b-gray-200 shadow-sm z-10 transition-default",
+        "fixed top-0 right-0 flex items-center justify-between h-16 px-8 bg-white border-b border-b-gray-200 shadow-sm transition-default z-10",
         {
           "left-72": layoutState,
           "left-20": !layoutState,

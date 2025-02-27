@@ -2,29 +2,13 @@ import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
-import Dropdown from "../common/Dropdown";
-
-const ClASS_TYPE = [
-  { id: 1, label: "오픈형", value: "Y" },
-  { id: 2, label: "폐쇄형", value: "N" },
-];
-
-const ClASS_LEVEL = [
-  { id: 1, label: "입문", value: "1" },
-  { id: 2, label: "초급", value: "2" },
-  { id: 3, label: "중급", value: "3" },
-  { id: 4, label: "심화", value: "4" },
-];
-
-const ClASS_RECOMMEND = [
-  { id: 1, label: "추천", value: "Y" },
-  { id: 2, label: "일반", value: "N" },
-];
-
-const ClASS_DISPLAY = [
-  { id: 1, label: "노출중", value: "Y" },
-  { id: 2, label: "노출중지", value: "N" },
-];
+import FilterDropdown from "../dropdown/FilterDropdown";
+import {
+  ClASS_DISPLAY,
+  ClASS_LEVEL,
+  ClASS_RECOMMEND,
+  ClASS_TYPE,
+} from "@/constant/dropdownMenu";
 
 interface FilterModalProps {
   handleModal: () => void;
@@ -35,12 +19,9 @@ export default function ClassFilterModal({ handleModal }: FilterModalProps) {
   const pathname = usePathname();
   const { replace } = useRouter();
   const searchParams = useSearchParams();
-  const [queryObj, setQueryObj] = useState({
-    type: searchParams.get("type"),
-    level: searchParams.get("level"),
-    recommend: searchParams.get("recommend"),
-    display: searchParams.get("display"),
-  });
+  const [queryObj, setQueryObj] = useState<{ [key: string]: string }>(
+    Object.fromEntries(searchParams.entries())
+  );
 
   const handleDropdown = (id: number) => {
     setOpenDropdown((prev) => (prev === id ? 0 : id));
@@ -51,13 +32,7 @@ export default function ClassFilterModal({ handleModal }: FilterModalProps) {
   };
 
   const handleReset = () => {
-    setQueryObj({
-      ...queryObj,
-      type: null,
-      level: null,
-      recommend: null,
-      display: null,
-    });
+    setQueryObj({});
   };
 
   const handleApply = () => {
@@ -100,38 +75,48 @@ export default function ClassFilterModal({ handleModal }: FilterModalProps) {
         필터 설정
       </div>
       <div className="grid grid-cols-2 gap-x-8 gap-y-5 px-5 py-7">
-        <Dropdown
-          label="유형"
-          menu={ClASS_TYPE}
-          queryKey="type"
-          queryValue={queryObj.type}
-          isOpen={openDropdown === 1}
-          handleDropdown={() => handleDropdown(1)}
-          handleSelect={handleSelect}
-        />
-        <Dropdown
+        <FilterDropdown
           label="난이도"
           menu={ClASS_LEVEL}
-          queryKey="level"
           queryValue={queryObj.level}
           isOpen={openDropdown === 2}
           handleDropdown={() => handleDropdown(2)}
           handleSelect={handleSelect}
         />
-        <Dropdown
+        <FilterDropdown
+          label="유형"
+          menu={ClASS_TYPE}
+          queryValue={
+            queryObj.type ? (queryObj.type === "Y" ? "오픈형" : "폐쇄형") : null
+          }
+          isOpen={openDropdown === 1}
+          handleDropdown={() => handleDropdown(1)}
+          handleSelect={handleSelect}
+        />
+        <FilterDropdown
           label="추천 여부"
           menu={ClASS_RECOMMEND}
-          queryKey="recommend"
-          queryValue={queryObj.recommend}
+          queryValue={
+            queryObj.recommend
+              ? queryObj.recommend === "Y"
+                ? "추천"
+                : "일반"
+              : null
+          }
           isOpen={openDropdown === 3}
           handleDropdown={() => handleDropdown(3)}
           handleSelect={handleSelect}
         />
-        <Dropdown
-          label="노출 상태"
+        <FilterDropdown
+          label="전시 상태"
           menu={ClASS_DISPLAY}
-          queryKey="display"
-          queryValue={queryObj.display}
+          queryValue={
+            queryObj.display
+              ? queryObj.display === "Y"
+                ? "전시중"
+                : "전시중지"
+              : null
+          }
           isOpen={openDropdown === 4}
           handleDropdown={() => handleDropdown(4)}
           handleSelect={handleSelect}

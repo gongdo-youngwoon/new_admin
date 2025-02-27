@@ -2,25 +2,23 @@ import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCheck } from "@fortawesome/free-solid-svg-icons";
 
-interface DropdownProps {
+interface FilterDropdownProps {
   label: string;
-  menu: { id: number; label: string; value: string }[];
-  queryKey: string;
+  menu: { id: number; label: string; key: string; value: string }[];
   queryValue: string | null;
   isOpen: boolean;
   handleDropdown: () => void;
   handleSelect: (key: string, value: string) => void;
 }
 
-export default function Dropdown({
+export default function FilterDropdown({
   label,
   menu,
-  queryKey,
   queryValue,
   isOpen,
   handleDropdown,
   handleSelect,
-}: DropdownProps) {
+}: FilterDropdownProps) {
   return (
     <div className="relative flex flex-col gap-[6px]">
       <div>{label}</div>
@@ -59,7 +57,7 @@ export default function Dropdown({
                 hover:cursor-pointer hover:bg-gray-100 hover:text-primary-400"
                 key={el.id}
                 onClick={() => {
-                  handleSelect(queryKey, el.label);
+                  handleSelect(el.key, el.value);
                   handleDropdown();
                 }}
               >
