@@ -10,6 +10,12 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        sm: "375px",
+        md: "820px",
+        lg: "1320px",
+        xl: "1920px",
+      },
       colors: {
         primary: {
           50: "#ece7f5",

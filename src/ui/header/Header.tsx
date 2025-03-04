@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useLayoutStore } from "@/store/layoutStore";
 import { getBreadcrumb } from "@/lib/breadcrumb";
 import ThemeToggleButton from "@/components/button/ThemeToggleButton";
+import HeaderProfile from "./HeaderProfile";
 
 export default function Header() {
   const layoutState = useLayoutStore((state) => state.state);
@@ -43,6 +44,7 @@ export default function Header() {
         ))}
       </ul>
       <ThemeToggleButton />
+      <HeaderProfile />
     </header>
   );
 }

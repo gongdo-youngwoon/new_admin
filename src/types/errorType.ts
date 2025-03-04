@@ -7,3 +7,8 @@ export interface bannerFormError {
   imageFile?: string[] | undefined;
   link?: string[] | undefined;
 }
+
+export interface LoginFormError {
+  email?: string[] | undefined;
+  password?: string[] | undefined;
+}

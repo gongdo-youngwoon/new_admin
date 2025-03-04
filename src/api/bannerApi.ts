@@ -144,7 +144,6 @@ export async function updateBanner({
   bannerId: string | string[] | undefined;
   formData: BannerFormType;
 }) {
-  console.log(formData);
   const result =
     formData.previewImage && !formData.imageFile
       ? updateBannerZod.safeParse(formData)

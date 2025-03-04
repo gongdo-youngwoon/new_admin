@@ -7,15 +7,15 @@ import { isValidHexColor } from "@/lib/validator";
 import { BannerFormType } from "@/types/formType";
 import { createBanner } from "@/api/bannerApi";
 import { bannerFormError } from "@/types/errorType";
+import { useAlertStore } from "@/store/alertStore";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import FormAccordion from "@/components/common/FormAccordion";
 import ColorInput from "@/components/input/ColorInput";
 import TextInput from "@/components/input/TextInput";
 import BgImageInput from "@/components/input/BgImageInput";
 import NumberInput from "@/components/input/NumberInput";
 import RadioInput from "@/components/input/RadioInput";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { useAlertStore } from "@/store/alertStore";
 
 const initialValue: BannerFormType = {
   title: "",
@@ -60,7 +60,7 @@ export default function BannerCreateForm() {
   const isTitleValid =
     inputValue.title.length > 0 && inputValue.title.length < 51;
   const isDescValid =
-    inputValue.desc.length > 0 && inputValue.desc.length < 101;
+    inputValue.desc.length > 0 && inputValue.desc.length < 169;
   const isCtaValid = inputValue.cta.length > 0 && inputValue.cta.length < 11;
   const isColorValid =
     isValidHexColor(inputValue.bgColor) &&
@@ -199,9 +199,16 @@ export default function BannerCreateForm() {
         className="fixed left-0 right-0 bottom-0 flex justify-end items-center gap-2 h-20 px-8 bg-white border-t border-t-gray-200 text-sm
         *:flex-center *:w-24 *:h-12"
       >
-        <div className="bg-white border border-gray-200 text-gray-600 rounded-md hover:cursor-pointer">
+        <a
+          href="/preview/banner"
+          target="_blank"
+          className="bg-white border border-gray-200 text-gray-600 rounded-md hover:cursor-pointer"
+          onClick={() => {
+            localStorage.setItem("bannerData", JSON.stringify(inputValue));
+          }}
+        >
           미리보기
-        </div>
+        </a>
         <div
           className="bg-primary-500 text-white rounded-md hover:cursor-pointer"
           onClick={handleMutate}

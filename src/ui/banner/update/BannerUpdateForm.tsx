@@ -233,9 +233,16 @@ export default function BannerUpdateForm() {
         className="fixed left-0 right-0 bottom-0 flex justify-end items-center gap-2 h-20 px-8 bg-white border-t border-t-gray-200 text-sm
         *:flex-center *:w-24 *:h-12"
       >
-        <div className="bg-white border border-gray-200 text-gray-600 rounded-md hover:cursor-pointer">
+        <a
+          href="/preview/banner"
+          target="_blank"
+          className="bg-white border border-gray-200 text-gray-600 rounded-md hover:cursor-pointer"
+          onClick={() => {
+            localStorage.setItem("bannerData", JSON.stringify(inputValue));
+          }}
+        >
           미리보기
-        </div>
+        </a>
         <div
           className="bg-primary-500 text-white rounded-md hover:cursor-pointer"
           onClick={handleMutate}
